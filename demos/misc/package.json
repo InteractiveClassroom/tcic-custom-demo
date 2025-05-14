@@ -1,6 +1,6 @@
 {
   "name": "custom-demo",
-  "private": true,
+  "type": "module",
   "version": "1.0.0",
   "scripts": {
     "dev": "cross-env NODE_ENV=development rspack serve",

@@ -120,6 +120,18 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3
 
+  demos/misc:
+    devDependencies:
+      '@rspack/cli':
+        specifier: ^1.1.4
+        version: 1.1.4(@rspack/core@1.1.4)(webpack@5.97.1)
+      '@rspack/core':
+        specifier: ^1.1.4
+        version: 1.1.4
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+
   demos/mp-navback:
     devDependencies:
       '@rspack/cli':

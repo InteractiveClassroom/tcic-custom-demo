@@ -5,17 +5,16 @@
 - [自定义定时器铃声](./demos/whiteBoardAuth)
 - [下课前 5 分钟弹窗提醒](./demos/endTimeModal)
 - [小程序 webview 返回上一页](./demos/mp-navback)
+- [自定义签到组件](./demos/checkInTool)
+- [其他一些简单例子](./demos/misc)
 
-### TODO
-- [自定义菜单项]
-- [修改角色称呼]
 
 ### 本地调试
 
 ```
 pnpm i
 
-cd ./demos/SOME_DEMO
+cd ./demos/{DEMO_NAME}
 
 pnpm dev
 
