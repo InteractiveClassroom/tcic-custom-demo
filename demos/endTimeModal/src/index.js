@@ -1,7 +1,6 @@
 TCIC.SDK.instance
   .promiseState(TCIC.TMainState.Class_Status, TCIC.TClassStatus.Already_Start)
   .then(() => {
-    TCIC.SDK.instance.setState('TStateBigClassLayout', { mobile: 'boardTopLayout' }); // videoTopLayout | boardTopLayout
     const classInfo = TCIC.SDK.instance.getClassInfo();
     const { endTime, startTime } = classInfo;
     const now = Date.now();
