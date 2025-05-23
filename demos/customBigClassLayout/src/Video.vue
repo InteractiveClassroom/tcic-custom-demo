@@ -18,7 +18,7 @@
   </div>
 </template>
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { nextTick, onMounted, ref, watch } from 'vue';
 import PortraitIMWrap from './components/PortraitIMWrap.vue';
 import { useVideoSize } from './hooks/useVideoSize';
 import { useVideos } from './hooks/useVideos';
@@ -30,11 +30,13 @@ const videoSize = useVideoSize(videoAreaRef, videoCountRef);
 
 
 onMounted(() => {
-  initVideos({ teacherVideo: teacherVideo.value, studentVideos: studentVideos.value });
-  const screenPlayerComponent = TCIC.SDK.instance.getComponent('screen-player-component');
-  videoAreaRef.value.appendChild(screenPlayerComponent);
-  // 不展示气泡消息
-  TCIC.SDK.instance.getComponent('quickmsg-show-component').getVueInstance().quickMsgVisible = false;
+  nextTick(() => {
+    initVideos({ teacherVideo: teacherVideo.value, studentVideos: studentVideos.value });
+    const screenPlayerComponent = TCIC.SDK.instance.getComponent('screen-player-component');
+    videoAreaRef.value.appendChild(screenPlayerComponent);
+    // 不展示气泡消息
+    TCIC.SDK.instance.getComponent('quickmsg-show-component').getVueInstance().quickMsgVisible = false;
+  });
 });
 
 const initVideos = ({ teacherVideo, studentVideos }) => {
@@ -76,7 +78,7 @@ watch(
   [teacherVideo, studentVideos],
   ([teacherVideo, studentVideos]) => {
     initVideos({ teacherVideo, studentVideos });
-    videoCountRef.value = studentVideos.value.length + 1;
+    videoCountRef.value = studentVideos.length + 1;
   },
   {
     deep: true,
