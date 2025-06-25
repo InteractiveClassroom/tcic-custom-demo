@@ -1,0 +1,18 @@
+/**
+ * 修改离开课堂的提示框内容和按钮
+ */
+TCICCustomUI.hooks(TCICCustomUI.THookType.MsgBox_LeaveClass_BeforeShow).tap((event) => {
+  console.log('beforeLeaveClass', event);
+  if (TCIC.SDK.instance.isTeacher()) {
+    // 修改弹窗标题
+    event.payload.title = '温馨提示';
+    // 修改弹窗内容
+    event.payload.message = '老师，您确定要离开课堂吗？';
+    // 不展示下课按钮
+    event.payload.buttons.shift();
+  } else if (TCIC.SDK.instance.isStudent()) {
+    // 取消弹窗逻辑
+    event.cancel();
+    window.showToast('您不能离开');
+  }
+});

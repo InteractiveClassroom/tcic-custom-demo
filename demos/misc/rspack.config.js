@@ -14,6 +14,9 @@ export default defineConfig({
 	devServer: {
 		port: 3000,
 		allowedHosts: 'all',
+		client: {
+      overlay: false,
+    },
 	},
 	module: {
 		rules: [
