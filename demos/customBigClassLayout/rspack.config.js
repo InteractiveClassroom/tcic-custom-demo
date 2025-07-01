@@ -15,6 +15,9 @@ const config = {
 		port: 3000,
 		allowedHosts: 'all',
     historyApiFallback: true,
+    client: {
+      overlay: false,
+    },
 	},
 
   devtool: process.env.NODE_ENV === 'development' ? 'source-map' : false,
