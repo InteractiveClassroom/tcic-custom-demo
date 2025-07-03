@@ -10,3 +10,8 @@
 ```js
 TCIC.SDK.instance.on(TCIC.TMainEvent.Recv_Custom_IM_Msg, (res) => console.log('customMsg', JSON.parse(res.data).payload));
 ```
+
+### 修改学生快捷回复列表
+```js
+TCIC.SDK.instance.setQuickIMWords(['哈哈哈', 'Hello', '你好']);
+```
