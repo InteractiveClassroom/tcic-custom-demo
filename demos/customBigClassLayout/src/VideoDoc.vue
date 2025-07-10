@@ -1,27 +1,29 @@
 <template>
   <div class="big-class-portrait-custom">
     <div class="class-header">
-      <div
-        class="board-area"
-        :style="{width: videoShow ? 'calc(100% - 115px)' : '100%'}"
-      >
-        <BoardWrap />
-      </div>
-      <div
-        class="video-area"
-        :style="{transform: videoShow ? 'translateX(0)' : 'translateX(115px)'}"
-      >
+      <AutoPlayFailedMask style="width: 100%; height: 100%;">
         <div
-          class="video-toggle"
-          @click="toggleShow"
+          class="board-area"
+          :style="{width: videoShow ? 'calc(100% - 115px)' : '100%'}"
         >
-          <i :class="videoShow ? 'close' : ''" />
+          <BoardWrap />
         </div>
         <div
-          ref="videoAreaRef"
-          class="video-area-inner"
-        />
-      </div>
+          class="video-area"
+          :style="{transform: videoShow ? 'translateX(0)' : 'translateX(115px)'}"
+        >
+          <div
+            class="video-toggle"
+            @click="toggleShow"
+          >
+            <i :class="videoShow ? 'close' : ''" />
+          </div>
+          <div
+            ref="videoAreaRef"
+            class="video-area-inner"
+          />
+        </div>
+      </AutoPlayFailedMask>
     </div>
     <div
       ref="footerAreaRef"
@@ -44,6 +46,8 @@ import { onMounted, ref, nextTick, watchEffect } from 'vue';
 import BoardWrap from './components/BoardWrap.vue';
 import PortraitIMWrap from './components/PortraitIMWrap.vue';
 import { useVideos } from './hooks/useVideos';
+import AutoPlayFailedMask from './components/autoplay-failed-mask/autoplay-failed-mask.vue';
+
 
 const videoAreaRef = ref();
 const footerAreaRef = ref();

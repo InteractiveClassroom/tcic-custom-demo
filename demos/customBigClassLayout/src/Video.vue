@@ -1,14 +1,16 @@
 <template>
   <div class="big-class-portrait-video">
     <div class="class-header">
-      <div
-        ref="videoAreaRef"
-        class="video-area"
-        :style="{
-          '--video-width': videoSize.videoWidth + 'px',
-          '--video-height': videoSize.videoHeight + 'px',
-        }"
-      />
+      <AutoPlayFailedMask style="width: 100%; height: 100%;">
+        <div
+          ref="videoAreaRef"
+          class="video-area"
+          :style="{
+            '--video-width': videoSize.videoWidth + 'px',
+            '--video-height': videoSize.videoHeight + 'px',
+          }"
+        />
+      </AutoPlayFailedMask>
     </div>
     <div
       class="im-area"
@@ -22,6 +24,8 @@ import { nextTick, onMounted, ref, watch } from 'vue';
 import PortraitIMWrap from './components/PortraitIMWrap.vue';
 import { useVideoSize } from './hooks/useVideoSize';
 import { useVideos } from './hooks/useVideos';
+import AutoPlayFailedMask from './components/autoplay-failed-mask/autoplay-failed-mask.vue';
+
 
 const videoAreaRef = ref();
 const { teacherVideo, studentVideos } = useVideos();
