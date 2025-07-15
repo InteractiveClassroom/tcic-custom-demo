@@ -16,7 +16,18 @@ TCIC.SDK.instance.on(TCIC.TMainEvent.Recv_Custom_IM_Msg, (res) => {
   }
 });
 ```
-关于消息体的结构请参考： https://cloud.tencent.com/document/product/647/112475
+关于消息体的结构请参考： https://cloud.tencent.com/document/product/647/112475#6063c6fd-7c2c-40ca-ba2b-e773bb2926ca
+
+### 替换页面文字
+```js
+TCIC.SDK.instance
+.promiseState(TCIC.TMainState.School_Info_Ready, true)
+.then(() => {
+  // 三个参数分别是目标语言，i18n的 key, 替换为的文本
+  TCICCustomUI.i18n.set('zh', '屏幕共享', '屏幕分享');
+  TCICCustomUI.i18n.set('zh', '消息', '聊天');
+});
+```
 
 ### 修改学生快捷回复列表
 ```js
