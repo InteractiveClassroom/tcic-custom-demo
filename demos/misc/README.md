@@ -9,7 +9,7 @@
   > 注意: 在监听字幕消息之前，需要确保创建课堂时开启了字幕转录的功能
 ```js
 TCIC.SDK.instance.on(TCIC.TMainEvent.Recv_Custom_IM_Msg, (res) => {
-  if (msg.from.indexOf('ai_transcription_') !== -1) {
+  if (res.from.indexOf('ai_transcription_') !== -1) {
     console.log('customMsg',
       JSON.parse(res.data).payload // 解析出消息体
     );
