@@ -1,0 +1,12 @@
+{
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "allowJs": true,
+    "typeRoots" : ["./src/types"],
+    "noImplicitAny": false,
+    "outDir": "./dist",
+    "plugins": [
+      { "name": "typescript-vue-plugin" }
+    ]
+  }
+}
