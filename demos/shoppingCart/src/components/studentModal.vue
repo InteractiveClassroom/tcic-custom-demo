@@ -1,18 +1,18 @@
 <template>
-  <div class="checkin-modal" v-if="showModal">
-    <div class="checkin-modal__content">
-      <div class="checkin-modal__header">
+  <div class="shop-modal" v-if="showModal">
+    <div class="shop-modal__content">
+      <div class="shop-modal__header">
         <h2>购物车</h2>
         <button @click="showModal = false">关闭</button>
       </div>
-      <div class="checkin-modal__body">
+      <div class="shop-modal__body">
         <p style="font-size: 30px;">📢</p>
         <p>🎉🎉🎉1v1小班课🎉🎉🎉</p>
         <p>优惠进行中</p>
       </div>
-      <div class="checkin-modal__footer">
+      <div class="shop-modal__footer">
         <button @click="showModal = false">取消</button>
-        <button @click="handleCheckIn()">查看详情</button>
+        <button @click="goDetail()">查看详情</button>
       </div>
     </div>
   </div>
@@ -23,9 +23,9 @@ import { ref } from 'vue';
 import useTask from '../hooks/useTask';
 
 const showModal = ref(false);
-useTask('custom-check-in-tool', (data) => {
+useTask('custom-shop-cart-tool', (data) => {
   // 任务更新回调
-  if (data.type === 'ask-check-in') {
+  if (data.type === 'show-shop-cart') {
     // 展示购物车
     if (localStorage.getItem('hasShown') === 'true') {
       return;
@@ -37,14 +37,14 @@ useTask('custom-check-in-tool', (data) => {
     });
   }
 });
-const handleCheckIn = () => {
+const goDetail = () => {
   showModal.value = false;
-  // 发送请求到服务器
+  // 自行实现跳转到详情页
 };
 </script>
 
 <style lang="less">
-.checkin-modal {
+.shop-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -55,20 +55,20 @@ const handleCheckIn = () => {
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
-  .checkin-modal__content {
+  .shop-modal__content {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     width: 300px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    .checkin-modal__body {
+    .shop-modal__body {
       margin: 20px 0;
       p {
         font-size: 16px;
         text-align: center;
       }
     }
-    .checkin-modal__header {
+    .shop-modal__header {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -82,7 +82,7 @@ const handleCheckIn = () => {
         font-size: 16px;
       }
     }
-    .checkin-modal__footer {
+    .shop-modal__footer {
       display: flex;
       justify-content: space-between;
       margin-top: 20px;

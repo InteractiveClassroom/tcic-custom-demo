@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-checkin-btn" @click="checkIn">
+  <div class="custom-shop-btn" @click="showShopCart">
     <img src="../assets/shopcart.svg" alt="">
     <span class="header__btn-text">购物车</span>
   </div>
@@ -7,30 +7,16 @@
 
 <script setup>
 import useTask from '../hooks/useTask';
-const refreshCheckInList = () => {
-  //TODO
-}
-const { updateTask } = useTask('custom-check-in-tool');
-// 监听学生签到回调
-useTask('custom-check-in-tool-result', (data) => {
-  // 任务更新回调
-  if (data.type === 'student-check-in') {
-    console.log('完成签到:', data.payload);
-    // 刷新签到列表
-    // 这里可以添加代码来更新签到列表的逻辑
-    // 例如调用一个方法来获取最新的签到数据
-    refreshCheckInList();
-  }
-})
-const checkIn = () => {
+const { updateTask } = useTask('custom-shop-cart-tool');
+const showShopCart = () => {
   updateTask({
-    type: 'ask-check-in',
+    type: 'show-shop-cart',
   });
 };
 </script>
 
 <style lang="less">
-.custom-checkin-btn {
+.custom-shop-btn {
   display: flex;
   align-items: center;
   justify-content: center;
