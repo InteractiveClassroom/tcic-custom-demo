@@ -1,3 +1,4 @@
 // import './filterMsg.js';
 // import './initNameConfig.js';
-import './customExitModal.js';
+// import './customExitModal.js';
+import  './preloadDoc.js';

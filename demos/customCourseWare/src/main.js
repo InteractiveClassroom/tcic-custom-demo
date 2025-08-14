@@ -37,5 +37,19 @@ TCICCustomUI.hooks(TCICCustomUI.THookType.Menus_BeforeMount).tap((event) => {
       hiddenWhenMoreBtnShow: false,
       isSub: true,
     });
+    tools.children.push({
+      name: 'random-choose-tool',
+      active: false,
+      enable: true,
+      hiddenWhenMoreBtnShow: false,
+      isSub: true,
+    });
+    tools.children.push({
+      name: 'seize-answer',
+      active: false,
+      enable: true,
+      hiddenWhenMoreBtnShow: false,
+      isSub: true,
+    });
   }
 });
