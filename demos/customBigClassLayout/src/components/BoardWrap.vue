@@ -1,5 +1,8 @@
 <template>
-  <div class="board-area" ref="boardAreaRef"></div>
+  <div
+    ref="boardAreaRef"
+    class="board-area"
+  />
 </template>
 
 <script setup>

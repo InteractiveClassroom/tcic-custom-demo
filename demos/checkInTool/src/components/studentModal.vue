@@ -1,16 +1,25 @@
 <template>
-  <div class="checkin-modal" v-if="showModal">
+  <div
+    v-if="showModal"
+    class="checkin-modal"
+  >
     <div class="checkin-modal__content">
       <div class="checkin-modal__header">
         <h2>签到</h2>
-        <button @click="showModal = false">关闭</button>
+        <button @click="showModal = false">
+          关闭
+        </button>
       </div>
       <div class="checkin-modal__body">
         <p>请您完成签到</p>
       </div>
       <div class="checkin-modal__footer">
-        <button @click="showModal = false">取消</button>
-        <button @click="handleCheckIn()">确认签到</button>
+        <button @click="showModal = false">
+          取消
+        </button>
+        <button @click="handleCheckIn()">
+          确认签到
+        </button>
       </div>
     </div>
   </div>

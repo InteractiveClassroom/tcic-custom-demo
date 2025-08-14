@@ -30,13 +30,31 @@
       class="footer-area"
     />
     <div class="tabs">
-      <div class="tab" :class="{active: tabIndex === 0}" @click="tabIndex = 0">聊天</div>
-      <div class="tab" :class="{active: tabIndex === 1}" @click="tabIndex = 1">直播介绍</div>
+      <div
+        class="tab"
+        :class="{active: tabIndex === 0}"
+        @click="tabIndex = 0"
+      >
+        聊天
+      </div>
+      <div
+        class="tab"
+        :class="{active: tabIndex === 1}"
+        @click="tabIndex = 1"
+      >
+        直播介绍
+      </div>
     </div>
-    <div class="im-area" v-show="tabIndex === 0">
+    <div
+      v-show="tabIndex === 0"
+      class="im-area"
+    >
       <PortraitIMWrap />
     </div>
-    <div class="live-info" v-show="tabIndex === 1">
+    <div
+      v-show="tabIndex === 1"
+      class="live-info"
+    >
       直播介绍内容
     </div>
   </div>

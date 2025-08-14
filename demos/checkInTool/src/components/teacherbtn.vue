@@ -1,6 +1,12 @@
 <template>
-  <div class="custom-checkin-btn" @click="checkIn">
-    <img src="../assets/checkin.svg" alt="">
+  <div
+    class="custom-checkin-btn"
+    @click="checkIn"
+  >
+    <img
+      src="../assets/checkin.svg"
+      alt=""
+    >
     <span class="header__btn-text">签到</span>
   </div>
 </template>
