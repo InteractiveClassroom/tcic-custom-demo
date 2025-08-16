@@ -14,7 +14,7 @@ watch(isPortrait, (newVal) => {
   console.log('isPortrait change', newVal);
   nextTick(() => {
     const board = TCIC.SDK.instance.getBoard();
-    board.refresh();
+    board?.refresh();
   });
 });
 TCIC.SDK.instance.subscribeState(TCIC.TMainState.Device_Orientation, (orientation) => {

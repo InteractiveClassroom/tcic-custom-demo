@@ -1,30 +1,29 @@
 <template>
-  <div class="layout-custom-landscape"
+  <div
+    class="layout-custom-landscape"
     :class="{
       'screen-share': screenPlayerVisible
     }"
   >
     <div
-      class="left-area"
       ref="containerRef"
-      :style="{
-        color:'white'
-      }"
+      class="left-area"
     >
       <div
-        class="video-area"
         ref="videoAreaRef"
+        class="video-area"
         :style="{
           width: videoWallSize.width + 'px',
           height: videoWallSize.height + 'px',
           '--video-width': videoSize.videoWidth + 'px',
           '--video-height': videoSize.videoHeight + 'px',
         }"
-      ></div>
+      />
     </div>
-    <div class="right-area" ref="rightAreaRef">
-      
-    </div>
+    <div
+      ref="rightAreaRef"
+      class="right-area"
+    />
   </div>
 </template>
 
@@ -37,18 +36,20 @@ const videoAreaRef = ref(null);
 const rightAreaRef = ref(null);
 const videoCountRef = ref(1);
 const containerRef = ref(null);
-const screenPlayerVisible = ref(false);
+const screenPlayerVisible = ref(TCIC.SDK.instance.getState('TStateScreenPlayerVisible', false));
 
 const { videoSize, videoWallSize } = useVideoWall(containerRef, videoCountRef);
 
 onMounted(() => {
-  console.log('onMounted', teacherVideo, studentVideos, screenPlayerVisible.value);
-  initVideos({ teacherVideo: teacherVideo.value, studentVideos: studentVideos.value });
+  if (screenPlayerVisible.value) {
+    putVideoToRightArea();
+  } else {
+    initVideos({ teacherVideo: teacherVideo.value, studentVideos: studentVideos.value });
+  }
   videoCountRef.value = studentVideos.value.length + 1;
-  console.log('screenPlayerVisible', TCIC.SDK.instance.getComponent('screen-player-component'));
-  TCIC.SDK.instance.loadComponent('screen-player-component', {
-    display: 'none',
-  }).then(() => {
+  console.log('onMounted',TCIC.SDK.instance.getComponent('screen-player-component'));
+  TCIC.SDK.instance.promiseState('TStateComponentLoaded', true).then(() => {
+    console.log('TStateComponentLoaded', TCIC.SDK.instance.getState('TStateComponentLoaded', false));
     containerRef.value.appendChild(TCIC.SDK.instance.getComponent('screen-player-component'));
   });
   TCIC.SDK.instance.subscribeState('TStateScreenPlayerVisible', (visible) => {
@@ -69,6 +70,7 @@ const initVideos = ({ teacherVideo, studentVideos }) => {
   }).then(() => {
     const ele = TCIC.SDK.instance.getComponent('teacher-component');
     if (ele) {
+      console.log('initVideos', videoAreaRef.value);
       videoAreaRef.value?.appendChild(ele);
     }
   }));
@@ -126,12 +128,13 @@ watch(
   },
 );
 watch(screenPlayerVisible, (newVal) => {
+  containerRef.value.appendChild(TCIC.SDK.instance.getComponent('screen-player-component'));
   if (newVal) {
     putVideoToRightArea();
   } else {
     initVideos({ teacherVideo: teacherVideo.value, studentVideos: studentVideos.value });
   }
-})
+});
 </script>
 
 <style lang="less">
