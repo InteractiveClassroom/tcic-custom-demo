@@ -179,6 +179,7 @@ watch(screenPlayerVisible, (newVal) => {
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
+      align-content: center;
       gap: 2px;
       teacher-component{
         order: 1;

@@ -10,7 +10,7 @@
     >
       <div class="video-list-inner"
         ref="videoListRef"
-        :style="{ width: `${videoCountRef.value * (videoSize.videoWidth + 2)}px`, height: '100%' }"
+        :style="{ width: `${videoCountRef * (110 + 2)}px`, height: '100%' }"
       ></div>
     </div>
     <div
@@ -170,6 +170,9 @@ watch(screenPlayerVisible, (newVal) => {
     --video-height: 70px;
     overflow-x: auto;
     white-space: nowrap;
+    &::-webkit-scrollbar{
+      display: none;
+    }
     .video-list-inner{
       display: flex;
       gap: 2px;
@@ -192,7 +195,16 @@ watch(screenPlayerVisible, (newVal) => {
     width: 100%;
     height: calc(100% - 90px);
     display: flex;
+    justify-content: center;
+    gap: 2px;
+    align-content: center;
     flex-wrap: wrap;
+    teacher-component{
+      order: 1;
+    }
+    student-component{
+      order: 2;
+    }
   }
 }
 </style>
