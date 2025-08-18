@@ -9,7 +9,7 @@ const config = {
     main: './src/main.js',
   },
   output: {
-    filename: "custom.js"
+    filename: process.env.NODE_ENV === 'production' ? 'custom.[contenthash:8].js' : 'custom.js'
   },
   devServer: {
 		port: 3000,

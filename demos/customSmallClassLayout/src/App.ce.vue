@@ -1,7 +1,7 @@
 <template>
   <SmallClassPortrait v-if="isPortrait" />
   <SmallClassLandScape v-else />
- <SwitchOrientation /> 
+  <SwitchOrientation />
 </template>
 
 <script setup>
