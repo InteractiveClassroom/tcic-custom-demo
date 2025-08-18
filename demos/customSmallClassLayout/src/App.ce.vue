@@ -1,20 +1,25 @@
 <template>
   <SmallClassPortrait v-if="isPortrait" />
   <SmallClassLandScape v-else />
+ <SwitchOrientation /> 
 </template>
 
 <script setup>
-import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
+import { ref, watch, nextTick, onBeforeUnmount, onMounted } from 'vue';
 // 竖屏
 import SmallClassPortrait from './SmallClassPortrait.vue';
 // 横屏
 import SmallClassLandScape from './SmallClassLandscape.vue';
+import SwitchOrientation from './components/SwitchOrientation.vue';
+
 const isPortrait = ref(TCIC.SDK.instance.isPortrait());
 watch(isPortrait, (newVal) => {
   console.log('isPortrait change', newVal);
   nextTick(() => {
-    const board = TCIC.SDK.instance.getBoard();
-    board?.refresh();
+    TCIC.SDK.instance.updateComponent('quickmsg-show-component', {
+      display: 'block',
+      height: `calc(100% - ${newVal ? 90 : 40}px - env(safe-area-inset-bottom))`,
+    });
   });
 });
 TCIC.SDK.instance.subscribeState(TCIC.TMainState.Device_Orientation, (orientation) => {
@@ -31,6 +36,18 @@ TCIC.SDK.instance.subscribeState(TCIC.TMainState.Device_Orientation, (orientatio
     });
   }
 });
+
+// 展示气泡消息
+onMounted(() => {
+  nextTick(() => {
+    TCIC.SDK.instance.updateComponent('quickmsg-show-component', {
+      display: 'block',
+      height: `calc(100% - ${isPortrait.value ? 90 : 40}px - env(safe-area-inset-bottom))`,
+    });
+  });
+});
+
+// 处理用户退出
 const handleAVRemove = (info) => {
   const classInfo = TCIC.SDK.instance.getClassInfo();
   if (info.userId === TCIC.SDK.instance.getUserId()) {
