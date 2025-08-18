@@ -1,7 +1,10 @@
 <template>
   <div
     v-if="!isWeb"
-    :class="['switch-orientation', className,  { 'is-ios': isIOSNative, 'is-andriod': isAndroidNative} ]"
+    :class="['switch-orientation', className,  {
+      'is-ios': isIOSNative,
+      'is-android': isAndroidNative,
+      'is-portrait': isPortrait} ]"
     @click="changeOrientation"
   />
 </template>
