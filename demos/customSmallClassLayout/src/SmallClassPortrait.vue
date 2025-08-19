@@ -56,6 +56,7 @@ TCIC.SDK.instance.loadComponent('tabbar-component', {
   const ele = TCIC.SDK.instance.getComponent('tabbar-component');
   if (ele) {
     footerArea.value?.appendChild(ele);
+    ele.getVueInstance().customMenus = ['custom-menu'];
   }
 });
 
