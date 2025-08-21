@@ -160,7 +160,7 @@ watch(screenPlayerVisible, (newVal) => {
   height: 100%;
   &.screen-share{
     .custom-video-wall{
-      height: calc(100% - 160px);
+      height: calc(100% - 160px + env(safe-area-inset-bottom));
     }
     .custom-video-list{
       height: 70px;
