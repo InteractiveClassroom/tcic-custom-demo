@@ -98,6 +98,9 @@ onMounted(() => {
         console.log('initLayout', err);
       });
   });
+  // 竖屏不展示气泡消息
+  const quickMsg = TCIC.SDK.instance.getComponent('quickmsg-show-component').getVueInstance();
+  quickMsg.quickMsgVisible = false;
   initVideos({ teacherVideo, studentVideos });
 });
 
