@@ -1,9 +1,15 @@
-import { ref, useAttrs } from 'vue';
+import { ref, useAttrs, watch } from 'vue';
 export const useVideos = () => {
-  const { videos: videoStr } = useAttrs();
-  const videos = JSON.parse(videoStr);
+  const attrs = useAttrs();
+  const videos = JSON.parse(attrs.videos);
   const teacherVideo = ref(videos.teacherVideo || null);
   const studentVideos = ref(videos.studentVideos || []);
+
+  watch(() => attrs.videos, (newVideos) => {
+    const videos = JSON.parse(newVideos);
+    teacherVideo.value = videos.teacherVideo;
+    studentVideos.value = videos.studentVideos;
+  });
 
   TCIC.SDK.instance.on(TCIC.TMainEvent.AV_Add, (info) => {
     const classInfo = TCIC.SDK.instance.getClassInfo();

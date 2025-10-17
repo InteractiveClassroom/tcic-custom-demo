@@ -35,12 +35,31 @@ const videoSize = useVideoSize(videoAreaRef, videoCountRef);
 
 onMounted(() => {
   nextTick(() => {
+    TCIC.SDK.instance.loadComponent('footer-component', {
+      left: '0',
+      top: '0',
+      zIndex: 11,
+      width: '100%',
+      height: '40px',
+      display: 'block',
+    })
+      .then((ele) => {
+        // footerAreaRef.value.appendChild(ele);
+        const footerVue = TCIC.SDK.instance.getComponent('footer-component').getVueInstance();
+        footerVue.disableQuickIM = true;
+      })
+      .catch((err) => {
+        console.error('initLayout err', err);
+      });
     initVideos({ teacherVideo: teacherVideo.value, studentVideos: studentVideos.value });
     const screenPlayerComponent = TCIC.SDK.instance.getComponent('screen-player-component');
     videoAreaRef.value.appendChild(screenPlayerComponent);
     // 不展示气泡消息
-    TCIC.SDK.instance.getComponent('quickmsg-show-component').getVueInstance().quickMsgVisible = false;
-  });
+    // TCIC.SDK.instance.getComponent('quickmsg-show-component').getVueInstance().quickMsgVisible = false;
+      TCIC.SDK.instance.updateComponent('quickmsg-show-component', {
+        display: 'none',
+      });
+    });
 });
 
 const initVideos = ({ teacherVideo, studentVideos }) => {
