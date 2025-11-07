@@ -4,6 +4,19 @@ import { rspack } from "@rspack/core";
 // Target browsers, see: https://github.com/browserslist/browserslist
 const targets = ["chrome >= 87", "edge >= 88", "firefox >= 78", "safari >= 14"];
 
+// 开发模式编译完成提示插件
+class DevDoneHintPlugin {
+	apply(compiler) {
+		compiler.hooks.done.tap("DevDoneHintPlugin", () => {
+			// 仅在开发模式下输出
+			if (compiler.options.mode !== "production") {
+				const port = (compiler.options.devServer && compiler.options.devServer.port) || 3000;
+				console.log("\n拼接参数: &debugjs=http://localhost:" + port + "/custom.js\n");
+			}
+		});
+	}
+}
+
 export default defineConfig({
 	entry: {
 		main: "./src/index.js"
@@ -52,5 +65,8 @@ export default defineConfig({
 	},
 	experiments: {
 		css: true
-	}
+	},
+	plugins: [
+		new DevDoneHintPlugin()
+	]
 });

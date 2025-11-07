@@ -2,6 +2,7 @@
 
 - 过滤进出房间消息 [filterMsg](./src/filterMsg.js)
 - 替换关键文案 [initNameConfig](./src/initNameConfig.js)
+- 课堂 hooks [hooks demo](./src/hooks.js)
 
 
 ### 监听字幕消息
@@ -32,4 +33,9 @@ TCIC.SDK.instance
 ### 修改学生快捷回复列表
 ```js
 TCIC.SDK.instance.setQuickIMWords(['哈哈哈', 'Hello', '你好']);
+```
+
+###  禁用老师拖放视频功能
+```js
+TCIC.SDK.instance.setFeatureAvailable('Video.Draggable', false);
 ```

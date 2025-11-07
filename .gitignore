@@ -2,3 +2,5 @@ dist
 node_modules
 .vscode
 customLayout/
+.DS_Store
+.codebuddy
