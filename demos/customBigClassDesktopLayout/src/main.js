@@ -2,7 +2,10 @@ import BigClassCustomLayout from './App.ce.vue';
 import { defineCustomElement } from 'vue';
 const MyVueElement = defineCustomElement(BigClassCustomLayout, { shadowRoot: false });
 customElements.define('bigclass-custom-layout', MyVueElement);
-console.log('setup:自定义布局', customElements.get('bigclass-custom-layout'));
+TCIC.SDK.instance.promiseState('TStateDeviceDetect', false).then(() => {
+    TCIC.SDK.instance.setState(TCIC.TMainState.Join_Quit_Tips, false);
+});
+
 TCIC.SDK.instance.setState('TStateBigClassLayout', { desktop: 'custom-all', customLayoutName: 'bigclass-custom-layout' });
 
 

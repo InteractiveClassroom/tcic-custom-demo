@@ -1,68 +1,70 @@
 <template>
-  <div class="big-class-portrait-video">
-    <div class="class-header">
-      <div
-        ref="videoAreaRef"
-        class="video-area"
+  <div
+    class="bigcls-video-con"
+    :style="{'--IM-width': IMWidth + 'px'}"
+  >
+    <div
+      ref="videoAreaRef"
+      class="left-area"
+      :style="{
+        '--video-width': `${videoSize.videoWidth}px`,
+        '--video-height': `${videoSize.videoHeight}px`,
+      }"
+    />
+    <div
+      class="right-area"
+      :style="{ width: `${IMWidth}px` }"
+    >
+      <SideToggleButton
         :style="{
-          '--video-width': videoSize.videoWidth + 'px',
-          '--video-height': videoSize.videoHeight + 'px',
+          width: '20px',
+          height: '40px',
+          position: 'absolute',
+          bottom: '72.5px',
+          zIndex: 999,
+          left: '-20px'
         }"
+      />
+      <div
+        ref="imAreaRef"
+        class="right-area-inner"
       />
     </div>
     <div
-      class="im-area"
+      ref="footerArea"
+      class="desktop-footer-area"
     >
     </div>
   </div>
 </template>
+
 <script setup>
-import { nextTick, onMounted, ref, watch } from 'vue';
-import { useVideoSize } from './hooks/useVideoSize';
+import { onMounted, ref, nextTick, watch, computed } from 'vue';
 import { useVideos } from './hooks/useVideos';
+import { useVideoSize } from './hooks/useVideoSize';
+import { useWindowSize } from '@vueuse/core';
 
-
-const videoAreaRef = ref();
+const videoAreaRef = ref(null);
+const imAreaRef = ref(null);
+const footerArea = ref(null);
 const { teacherVideo, studentVideos } = useVideos();
-const videoCountRef = ref(studentVideos.value.length + 1);
-const videoSize = useVideoSize(videoAreaRef, videoCountRef);
+const videoCount = ref(studentVideos.value.length + 1);
 
+const { width: windowWidth } = useWindowSize();
+const videoSize = useVideoSize(videoAreaRef, videoCount, { resizeable: true, fillMode: 'contain' });
 
-onMounted(() => {
-  nextTick(() => {
-    TCIC.SDK.instance.loadComponent('footer-component', {
-      left: '0',
-      top: '0',
-      zIndex: 11,
-      width: '100%',
-      height: '40px',
-      display: 'block',
-    })
-      .then((ele) => {
-        // footerAreaRef.value.appendChild(ele);
-        const footerVue = TCIC.SDK.instance.getComponent('footer-component').getVueInstance();
-        footerVue.disableQuickIM = true;
-      })
-      .catch((err) => {
-        console.error('initLayout err', err);
-      });
-    initVideos({ teacherVideo: teacherVideo.value, studentVideos: studentVideos.value });
-    const screenPlayerComponent = TCIC.SDK.instance.getComponent('screen-player-component');
-    videoAreaRef.value.appendChild(screenPlayerComponent);
-    // 不展示气泡消息
-    // TCIC.SDK.instance.getComponent('quickmsg-show-component').getVueInstance().quickMsgVisible = false;
-      TCIC.SDK.instance.updateComponent('quickmsg-show-component', {
-        display: 'none',
-      });
-    });
+const IMWidth = computed(() => {
+  if (windowWidth.value < 1440) {
+    return 286;
+  }
+  if (windowWidth.value < 1920) {
+    return 322;
+  }
+  return 452;
 });
-
-const initVideos = ({ teacherVideo, studentVideos }) => {
-  const promiseArr = [];
-  if (teacherVideo) {
-    promiseArr.push(TCIC.SDK.instance.updateComponent('teacher-component', {
-      left: '0',
-      top: '0',
+const initVideos = () => {
+  if (teacherVideo.value) {
+    TCIC.SDK.instance.updateComponent('teacher-component', {
       width: 'var(--video-width)',
       height: 'var(--video-height)',
       display: 'block',
@@ -72,12 +74,10 @@ const initVideos = ({ teacherVideo, studentVideos }) => {
       if (ele) {
         videoAreaRef.value?.appendChild(ele);
       }
-    }));
+    });
   }
-  studentVideos?.forEach((info) => {
-    promiseArr.push(TCIC.SDK.instance.updateComponent('student-component', {
-      left: '0',
-      top: '0',
+  studentVideos.value?.forEach((info) => {
+    TCIC.SDK.instance.updateComponent('student-component', {
       width: 'var(--video-width)',
       height: 'var(--video-height)',
       display: 'block',
@@ -87,54 +87,77 @@ const initVideos = ({ teacherVideo, studentVideos }) => {
       if (studentDom) {
         videoAreaRef.value?.appendChild(studentDom);
       }
-    }));
+    });
   });
-  return Promise.all(promiseArr);
 };
-
+onMounted(() => {
+  nextTick(() => {
+    initVideos();
+    TCIC.SDK.instance.loadComponent('footer-component', {
+      left: '0',
+      top: '0',
+      zIndex: 11,
+      width: '100%',
+      height: '40px',
+      display: 'block',
+    })
+      .then((ele) => {
+        footerAreaRef.value.appendChild(ele);
+        const footerVue = TCIC.SDK.instance.getComponent('footer-component').getVueInstance();
+        footerVue.disableQuickIM = true;
+      })
+      .catch((err) => {
+        console.log('initLayout', err);
+      });
+    const screenPlayerComponent = TCIC.SDK.instance.getComponent('screen-player-component');
+    videoAreaRef.value.appendChild(screenPlayerComponent);
+    // 放好 im
+    TCIC.SDK.instance.updateComponent('introduction-discuss-component', {
+      display: 'block',
+      position: 'relative',
+    }).then(() => {
+      imAreaRef.value.appendChild(TCIC.SDK.instance.getComponent('introduction-discuss-component'));
+    });
+  });
+});
 watch(
   [teacherVideo, studentVideos],
-  ([teacherVideo, studentVideos]) => {
-    initVideos({ teacherVideo, studentVideos });
-    videoCountRef.value = studentVideos.length + 1;
-  },
-  {
-    deep: true,
+  () => {
+    initVideos();
+    videoCount.value = studentVideos.value.length + 1;
   },
 );
-
 </script>
 
 <style lang="less">
-.big-class-portrait-video{
+.bigcls-video-con{
+  width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
-  .portrait-im-component{
-    background-color: transparent!important;
+  .left-area{
+    display: flex;
+    position: relative;
+    gap: 2px;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    height: calc(100% - 50px);
+    width: calc(100% - var(--IM-width));
   }
-  .class-header{
-    height: calc(100vw * 9 / 16);
-    .video-area {
+  .right-area{
+    width: auto;
+    position: relative;
+    height: 100%;
+    .right-area-inner{
       width: 100%;
       height: 100%;
-      position: relative;
-      z-index: 10;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      student-component {
-        order: 2;
-      }
-      teacher-component {
-        order: 1;
-      }
     }
   }
-  .im-area{
-    flex: 1;
-    padding-top: 10px;
-    position: relative;
+  .desktop-footer-area{
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
   }
 }
 </style>

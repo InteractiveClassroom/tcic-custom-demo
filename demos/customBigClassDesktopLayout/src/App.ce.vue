@@ -4,7 +4,6 @@
 </template>
 
 <script setup>
-console.log('setup!!!');
 // 视频白板课
 import BigClassVideoDoc from './VideoDoc.vue';
 // 视频课
