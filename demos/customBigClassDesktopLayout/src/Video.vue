@@ -102,7 +102,7 @@ onMounted(() => {
       display: 'block',
     })
       .then((ele) => {
-        footerAreaRef.value.appendChild(ele);
+        footerArea.value.appendChild(ele);
         const footerVue = TCIC.SDK.instance.getComponent('footer-component').getVueInstance();
         footerVue.disableQuickIM = true;
       })
